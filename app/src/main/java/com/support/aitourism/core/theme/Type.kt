@@ -1,4 +1,4 @@
-package com.support.aitourism.ui.theme
+package com.support.aitourism.core.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

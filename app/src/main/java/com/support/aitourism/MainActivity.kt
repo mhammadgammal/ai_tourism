@@ -3,19 +3,28 @@ package com.support.aitourism
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.support.aitourism.core.theme.AITourismTheme
+import androidx.navigation.compose.*
+import com.support.aitourism.features.authentication.ui.login.LoginScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContent {
-            AITourismTheme {
+            Navigation()
+        }
+    }
 
-            }
+    @Composable
+    fun Navigation() {
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "login") {
+            composable("login", content = {
+                LoginScreen()
+            })
         }
     }
 }

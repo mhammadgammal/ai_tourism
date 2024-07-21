@@ -2,9 +2,9 @@
 <resources>
 
     <style name="Theme.AITourism" parent="android:Theme.Material.Light.NoActionBar" />
-    
-    <style name="Theme.SplashScreen" parent="Theme.AITourism" >
+
+    <style name="Theme.SplashScreen" parent="Theme.AITourism">
         <item name="postSplashScreenTheme">@style/Theme.AITourism</item>
-<!--        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_screen</item>-->
+        <!--        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_screen</item>-->
     </style>
 </resources>

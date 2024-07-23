@@ -3,9 +3,12 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
     //KSP Plugin
-    id("com.google.devtools.ksp") version "1.9.0-1.0.12"
+//    id("com.google.devtools.ksp") version "1.9.0-1.0.12"
     //Hilt Plugin
-    alias(libs.plugins.hilt)
+//    alias(libs.plugins.hilt)
+//    id("kotlin-kapt")
+    alias(libs.plugins.dagger.hilt.plugin)
+    alias(libs.plugins.kotlin.kapt)
 
 }
 
@@ -19,7 +22,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -54,7 +57,6 @@ android {
         }
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -88,10 +90,19 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     // Hilt Dependency Injection Dependencies
-    implementation(libs.hilt.android.v2405)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.lifecycle.viewmodel)
-    ksp(libs.androidx.hilt.compiler)
+    //Dagger - Hilt
+
+//    implementation ("com.google.dagger:hilt-android:2.51.1")
+//    kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
+//    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+//    kapt ("androidx.hilt:hilt-compiler:1.2.0")
+//    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    //Dagger Hilt
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    //////////////////////////////////////////////////////////////////////
+    implementation(libs.androidx.multidex)
 }
 // Apply the Hilt Gradle plugin
 apply(plugin = "dagger.hilt.android.plugin")

@@ -2,6 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    //KSP Plugin
+    id("com.google.devtools.ksp") version "1.9.0-1.0.12"
+    //Hilt Plugin
+    alias(libs.plugins.hilt)
+
 }
 
 android {
@@ -31,11 +36,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -60,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    //Firebase Dependency
     implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -69,7 +75,23 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //Splash Screen Dependency
     implementation(libs.androidx.core.splashscreen)
 
+    //Compose Navigation Dependency
     implementation(libs.androidx.navigation.compose)
+
+    // ViewModel Dependency
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    //Retrofit Dependency
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    // Hilt Dependency Injection Dependencies
+    implementation(libs.hilt.android.v2405)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel)
+    ksp(libs.androidx.hilt.compiler)
 }
+// Apply the Hilt Gradle plugin
+apply(plugin = "dagger.hilt.android.plugin")

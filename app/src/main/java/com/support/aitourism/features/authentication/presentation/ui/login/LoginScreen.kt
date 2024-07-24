@@ -1,6 +1,7 @@
-package com.support.aitourism.features.authentication.ui.login
+package com.support.aitourism.features.authentication.presentation.ui.login
 
-import android.util.Log
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,11 +17,14 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -36,12 +41,20 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.support.aitourism.R
+import com.support.aitourism.features.authentication.presentation.view_model.AuthenticationViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.support.aitourism.features.authentication.data.datasource.remote_datasource.Resource
 
-const val TAG: String = "LoginScreen"
-
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun LoginScreen() {
 
+    val viewModel = hiltViewModel<AuthenticationViewModel>()
+    val result = viewModel.result.collectAsState()
+
+    val email = mutableStateOf("")
+
+    val password = mutableStateOf("")
     Box(
         modifier = Modifier
 
@@ -57,8 +70,8 @@ fun LoginScreen() {
         Column(
             modifier = Modifier
                 .padding(
-                start = 16.dp,
-                end = 16.dp,
+                    start = 16.dp,
+                    end = 16.dp,
                 ),
 
             verticalArrangement = Arrangement.Center,
@@ -85,7 +98,10 @@ fun LoginScreen() {
                 color = Color.White
             )
 
-            LoginKeyBoard(label = "Email", icon = Icons.Outlined.Email)
+            LoginKeyBoard(
+                valueModifier = email,
+                label = "Email", icon = Icons.Outlined.Email
+            )
             Box(modifier = Modifier.height(20.dp))
             Text(
                 text = "Password",
@@ -96,6 +112,7 @@ fun LoginScreen() {
             )
 
             LoginKeyBoard(
+                valueModifier = password,
                 label = "Password",
                 icon = Icons.Outlined.Lock,
                 obscureText = true
@@ -110,32 +127,42 @@ fun LoginScreen() {
                     containerColor = Color.White,
                     contentColor = Color.Black
                 ),
-                onClick = { Log.d(TAG, "LoginScreen: Login btn pressed") }) {
-                Text(text = "Login", fontSize = 24.sp)
+                onClick = { viewModel.login(email.value, password.value) }) {
+                if (result.value is Resource.Loading) {
+                    CircularProgressIndicator()
+                } else {
+                    Text(text = "Login", fontSize = 24.sp)
+                }
             }
+
+            if (result.value is Resource.Failure) {
+                Toast.makeText(
+                    LocalContext.current,
+                    (result.value as Resource.Failure).exception.message!!,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
         }
 
 
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginKeyBoard(
+    valueModifier: MutableState<String>,
     label: String,
     icon: ImageVector,
     obscureText: Boolean = false,
 ) {
-    var valueModifier by remember {
-        mutableStateOf("")
-    }
     var passwordVisibility by remember {
         mutableStateOf(false)
     }
     OutlinedTextField(
-        value = valueModifier,
-        onValueChange = { valueModifier = it },
+        value = valueModifier.value,
+        onValueChange = { valueModifier.value = it },
         label = { Text(label) },
         singleLine = true,
         leadingIcon = {

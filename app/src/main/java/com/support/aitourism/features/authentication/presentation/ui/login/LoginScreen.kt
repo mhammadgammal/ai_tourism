@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
@@ -20,8 +21,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -40,14 +41,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.support.aitourism.R
-import com.support.aitourism.features.authentication.presentation.view_model.AuthenticationViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.support.aitourism.R
 import com.support.aitourism.features.authentication.data.datasource.remote_datasource.Resource
+import com.support.aitourism.features.authentication.presentation.view_model.AuthenticationViewModel
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun LoginScreen() {
+fun LoginScreen(onLoginSuccess: () -> Unit) {
 
     val viewModel = hiltViewModel<AuthenticationViewModel>()
     val result = viewModel.result.collectAsState()
@@ -135,7 +136,9 @@ fun LoginScreen() {
                 }
             }
 
-            if (result.value is Resource.Failure) {
+            if (result.value is Resource.Success) {
+                onLoginSuccess()
+            } else if (result.value is Resource.Failure) {
                 Toast.makeText(
                     LocalContext.current,
                     (result.value as Resource.Failure).exception.message!!,
@@ -169,13 +172,17 @@ fun LoginKeyBoard(
             Image(imageVector = icon, contentDescription = null)
         },
 
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedLabelColor = Color.Black, // Label color when focused
-            unfocusedLabelColor = Color.Gray, // Label color when not focused
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = Color.White, // Set container color to transparent
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+            errorContainerColor = Color.Transparent,
+            cursorColor = Color.Black,
+            selectionColors = LocalTextSelectionColors.current,
             focusedBorderColor = Color.Black, // Border color when focused
             unfocusedBorderColor = Color.LightGray, // Border color when not focused
-            containerColor = Color.White, // Set container color to transparent
-            cursorColor = Color.Black,
+            focusedLabelColor = Color.Black, // Label color when focused
+            unfocusedLabelColor = Color.Gray, // Label color when not focused
         ),
         visualTransformation = if (obscureText) {
             if (passwordVisibility) {

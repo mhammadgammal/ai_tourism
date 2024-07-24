@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Navigation() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "login") {
+        NavHost(navController = navController, startDestination = "home") {
             composable("login", content = {
                 LoginScreen {
                     navController.navigate("home")

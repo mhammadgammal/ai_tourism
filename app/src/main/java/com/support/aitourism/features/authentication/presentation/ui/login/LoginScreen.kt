@@ -16,8 +16,6 @@ import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -43,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.support.aitourism.R
+import com.support.aitourism.core.composables.CustomButton
 import com.support.aitourism.features.authentication.data.datasource.remote_datasource.Resource
 import com.support.aitourism.features.authentication.presentation.view_model.AuthenticationViewModel
 
@@ -119,15 +118,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 obscureText = true
             )
             Box(modifier = Modifier.height(20.dp))
-            Button(
+            CustomButton(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(66.dp)
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                    contentColor = Color.Black
-                ),
+                    .fillMaxWidth(),
                 onClick = { viewModel.login(email.value, password.value) }) {
                 if (result.value is Resource.Loading) {
                     CircularProgressIndicator()

@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import com.support.aitourism.core.composables.CustomButton
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(openCamera: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -21,7 +21,9 @@ fun HomeScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         CustomButton(
-            onClick = {}) {
+            onClick = {
+                openCamera()
+            }) {
             Text(text = "Open Camera")
         }
         CustomButton(

@@ -89,20 +89,17 @@ dependencies {
     //Retrofit Dependency
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    // Hilt Dependency Injection Dependencies
-    //Dagger - Hilt
 
-//    implementation ("com.google.dagger:hilt-android:2.51.1")
-//    kapt ("com.google.dagger:hilt-android-compiler:2.51.1")
-//    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-//    kapt ("androidx.hilt:hilt-compiler:1.2.0")
-//    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     //Dagger Hilt
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    //////////////////////////////////////////////////////////////////////
+
+    //multi dex dependency
     implementation(libs.androidx.multidex)
+
+    //Coil
+    implementation(libs.coil.compose)
 }
 // Apply the Hilt Gradle plugin
 apply(plugin = "dagger.hilt.android.plugin")

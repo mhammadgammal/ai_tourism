@@ -9,7 +9,7 @@ plugins {
 //    id("kotlin-kapt")
     alias(libs.plugins.dagger.hilt.plugin)
     alias(libs.plugins.kotlin.kapt)
-
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.material3)
     //Firebase Dependency
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,7 +83,7 @@ dependencies {
 
     //Compose Navigation Dependency
     implementation(libs.androidx.navigation.compose)
-
+    implementation(libs.kotlinx.serialization.json)
     // ViewModel Dependency
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 

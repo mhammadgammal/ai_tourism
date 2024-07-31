@@ -1,5 +1,7 @@
 package com.support.aitourism.features.home.presentation.ui
 
+import android.net.Uri
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +14,11 @@ import androidx.compose.ui.graphics.Color
 import com.support.aitourism.core.composables.CustomButton
 
 @Composable
-fun HomeScreen(openCamera: () -> Unit) {
+fun HomeScreen(
+    openCamera: () -> Unit,
+    openGallery: @Composable () -> ManagedActivityResultLauncher<Array<String>, Uri?>
+) {
+    val galleryLauncher = openGallery()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,7 +33,7 @@ fun HomeScreen(openCamera: () -> Unit) {
             Text(text = "Open Camera")
         }
         CustomButton(
-            onClick = {}) {
+            onClick = { galleryLauncher.launch(arrayOf("image/*")) }) {
             Text(text = "Select from Your Gallery")
         }
     }

@@ -12,9 +12,9 @@ fun launchPicker(navToShow: (Uri) -> Unit): ManagedActivityResultLauncher<Array<
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let {
-                navToShow(uri)
+                navToShow(it)
             }
         }
-    remember { launcher }
-    return launcher
+
+    return remember { launcher }
 }

@@ -66,11 +66,12 @@ fun BoardingScreen(
             )
             Button(onClick = {
                 coroutineScope.launch {
-                    // Call scroll to on pagerState
-                    pagerState.scrollToPage(pagerState.currentPage + 1)
                     if (pagerState.currentPage == 2) {
                         onLastPage()
                     }
+                    // Call scroll to on pagerState
+                    pagerState.scrollToPage(pagerState.currentPage + 1)
+
                 }
             }, modifier = Modifier.fillMaxWidth()) {
                 Text("Next")

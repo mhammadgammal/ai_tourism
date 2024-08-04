@@ -12,6 +12,7 @@ import androidx.navigation.toRoute
 import com.support.aitourism.core.utils.BaseActivity
 import com.support.aitourism.core.utils.launchPicker
 import com.support.aitourism.features.authentication.presentation.ui.login.LoginScreen
+import com.support.aitourism.features.boarding.BoardingScreen
 import com.support.aitourism.features.home.presentation.ui.HomeScreen
 import com.support.aitourism.features.show.presentation.screens.ShowScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +32,14 @@ class MainActivity : BaseActivity() {
     @Composable
     fun Navigation() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "home") {
+        NavHost(navController = navController, startDestination = "boarding") {
+
+            composable("boarding") {
+                BoardingScreen {
+                    navController.navigate("login")
+                }
+            }
+
             composable("login", content = {
                 LoginScreen {
                     navController.navigate("home")
